@@ -5,7 +5,7 @@ var actionsArray = [
                 console.log('5000ms');
             }, 5000); 
             
-        },
+        }, 
     function (next) {
             setTimeout(function () {
                 next(null, '500ms'); 
@@ -17,6 +17,16 @@ var actionsArray = [
                 next(null, '1000ms'); 
                 console.log('1000ms');
             }, 1000);
+        },
+    function (next) {
+            setTimeout(function () {
+                next('ERROR');
+            }, 2000);
+        },
+    function (next) {
+            setTimeout(function () {
+                next('ERROR');
+            }, 3000);
         }
     ];
 
@@ -24,24 +34,34 @@ function completeTest() {
         console.info('OK!');  
 }
 
-function next(){
-    
-}
 
-var result = [];
+
+ 
 function parallel(arr, callback) {
-//    var result = [];
-    arr.forEach(function (action, index){
-        try {
-            var actionResult = action(next);
-//когда функция выполнится записать результат в массив результатов и вызвать функцию next(null, actionResult)
-            result[index] = actionResult;
-        } catch(error) {
-            console.log(error);
-//когда функция выполнится с ошибкой вызвать функцию next(error);   
-        }         
+    var result = [];
+
+
+    arr.forEach(function (action, index) {
+        function next(obj, data) {
+            if (obj === null) {
+                result[index] = data;
+                console.log(result);
+            } else {
+                console.log(obj);
+                //вызвать один раз callback(error) с первой ошибкой
+                //callback(error);
+            }
+        }
+        action(next);
     });
-    console.log(result);
+
+
+
+    //когда ВСЕ операции завершились 
+    //callback(null, result);
+
+
+
 
 }
 
