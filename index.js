@@ -1,0 +1,5 @@
+
+
+function parallel(arr, callback){
+
+}
