@@ -48,19 +48,12 @@ function parallel(arr, callback) {
                     callback(null, result); 
                 }
             } else {
-                callback(error);
+                callback(obj);
             }
         }
         action(next);
     });
 }
-
-
-
-
-
-
-
-
+ 
 
 parallel(actionsArray, completeTest);
